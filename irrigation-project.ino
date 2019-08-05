@@ -40,10 +40,8 @@ void setup() {
 void loop() {
   // Mede a umidade a cada x segundos. Uma hora = 3600 segundos.
   for(int i=1; i<=10; i++) {
-    // Posiciona o cursor do LCD na coluna 0 linha 1
-    // (Obs: linha 1 é a segunda linha, a contagem começa em 0
+    // Posiciona o cursor do LCD na coluna 0 linha 1 (Obs: linha 0 é a primeira)
     lcd.setCursor(0, 1);
-    // Exibe a mensagem no Display LCD:
     // Faz a leitura do sensor de umidade do solo
     umidadeSolo = analogRead(pinoSensor);
     // Converte a variação do sensor de 0 a 1023 para 0 a 100
@@ -52,14 +50,11 @@ void loop() {
     umidadeReal = umidadeReal + convert;
     // Exibe a mensagem no Display LCD:
     lcd.print(String("Umidade: ") + String(umidadeReal/i) + String("%"));
-    //lcd.print(umidadeReal/i);
-    //lcd.print("%");
-    // Espera um segundo
     delay(1000);
   }
 
   // Conversão para único valor
-  // divisão pelo mesmo valor do laço (que define também o tempo)
+  // divisão pelo mesmo valor de iter do laço 
   umidadeReal = umidadeReal/10.0;
 
   // verificação se o reservatório possui água
@@ -70,7 +65,7 @@ void loop() {
     // Exibe a mensagem no Display LCD:
     lcd.print("  > SEM AGUA! <  ");
     
-    // Aciona o buzzer na frequencia relativa ao Dó em Hz
+    // Aciona o buzzer na frequencia relativa ao 'Dó' em Hz
     for(int i=0; i<10; i++){
       tone(pinBuzzer,261);
       delay(500);
@@ -100,8 +95,6 @@ void loop() {
     }
     
     else {
-      // Posiciona o cursor do LCD na coluna 0 linha 1
-      // (Obs: linha 1 é a segunda linha, a contagem começa em 0
       lcd.setCursor(0, 1);
       // Exibe a mensagem no Display LCD:
       lcd.print("Solo Encharcado!");
@@ -110,38 +103,3 @@ void loop() {
       delay(2000);
     }
 }
-
-
-/*
- * RELEY-TEST
-
-#define dpin 7
-void setup() {
-  pinMode(dpin, OUTPUT);
-}
-void loop() {
-  digitalWrite(dpin, HIGH);
-  delay(10000);
-  digitalWrite(dpin, LOW);
-  delay(10000);
-}
-
-  *MOINSTURE SENSOR TEST
-#define SensorPin A0 
-float sensorValue = 0;
- 
-void setup() { 
- Serial.begin(9600); 
-}
- 
-void loop() { 
- for (int i = 0; i <= 100; i++) { 
- sensorValue = sensorValue + analogRead(SensorPin); 
- delay(5); 
- }
-  
- sensorValue = sensorValue/100.0; 
- Serial.println(sensorValue); 
- delay(30); 
-} 
-*/
